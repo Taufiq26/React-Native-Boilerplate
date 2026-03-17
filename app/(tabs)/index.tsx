@@ -23,10 +23,10 @@ export default function TabOneScreen() {
 
   const filteredProperties = DUMMY_PROPERTIES.filter((prop) => {
     const matchesFilter = activeFilter === 'All' || prop.status === activeFilter;
-    const matchesSearch = 
-      prop.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    const matchesSearch =
+      prop.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       prop.address.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     return matchesFilter && matchesSearch;
   });
 
@@ -34,7 +34,7 @@ export default function TabOneScreen() {
     <View className="mb-6 pt-4">
       <View className="flex-row items-center justify-between">
         <View>
-          <Text className="text-sm font-semibold text-gray-500 dark:text-gray-400">Welcome back, John!</Text>
+          <Text className="text-sm font-semibold text-gray-500 dark:text-gray-400">Welcome back, Jon!</Text>
           <Text className="mt-1 text-3xl font-bold text-gray-900 dark:text-white">My Properties</Text>
         </View>
         <View className="flex-row items-center gap-4">
@@ -73,16 +73,14 @@ export default function TabOneScreen() {
           <Pressable
             key={pill}
             onPress={() => setActiveFilter(pill)}
-            className={`mr-3 rounded-full border px-6 py-2.5 ${
-              activeFilter === pill
+            className={`mr-3 rounded-full border px-6 py-2.5 ${activeFilter === pill
                 ? 'border-gray-900 bg-gray-900 dark:border-white dark:bg-white'
                 : 'border-gray-200 bg-white dark:border-zinc-700 dark:bg-zinc-800'
-            }`}
+              }`}
           >
             <Text
-              className={`text-sm font-semibold ${
-                activeFilter === pill ? 'text-white dark:text-gray-900' : 'text-gray-700 dark:text-gray-300'
-              }`}
+              className={`text-sm font-semibold ${activeFilter === pill ? 'text-white dark:text-gray-900' : 'text-gray-700 dark:text-gray-300'
+                }`}
             >
               {pill}
             </Text>
