@@ -5,6 +5,7 @@ import React, { useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { SuccessModal } from '@/src/components/SuccessModal';
+import { ErrorModal } from '@/src/components/ErrorModal';
 
 const { width, height } = Dimensions.get('window');
 
@@ -205,9 +206,6 @@ export default function RegisterScreen() {
                   )}
                 </TouchableOpacity>
               </View>
-              {error ? (
-                <Text className="text-red-500 text-[13px] mt-2 ml-1 font-medium">{error}</Text>
-              ) : null}
             </View>
 
             {/* Error spacing block */}
@@ -253,6 +251,13 @@ export default function RegisterScreen() {
         }
         buttonText="Continue"
         onConfirm={handleModalConfirm}
+      />
+
+      <ErrorModal
+        visible={!!error}
+        title="Registration Error"
+        message={error}
+        onConfirm={() => setError('')}
       />
     </View>
   );

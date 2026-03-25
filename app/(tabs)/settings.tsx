@@ -6,11 +6,13 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { SuccessModal } from '@/src/components/SuccessModal';
+import { WarningModal } from '@/src/components/WarningModal';
 
 export default function TabTwoScreen() {
   const insets = useSafeAreaInsets();
   const { signOut, user } = useAuth();
   const [showOtpModal, setShowOtpModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const userEmail = `${user?.name?.toLowerCase().replace(/\s+/g, '') || 'john'}@demo.com`;
 
   const MenuItem = ({ icon: Icon, title, isLast = false, onPress }: any) => (
@@ -71,7 +73,7 @@ export default function TabTwoScreen() {
 
         {/* Logout Card */}
         <View className="mt-6 rounded-[28px] bg-red-50 px-5 py-2 shadow-sm dark:bg-red-900/20">
-          <MenuItem icon={LogOut} title="Log Out" isLast={true} onPress={signOut} />
+          <MenuItem icon={LogOut} title="Log Out" isLast={true} onPress={() => setShowLogoutModal(true)} />
         </View>
       </View>
 
@@ -91,6 +93,19 @@ export default function TabTwoScreen() {
           setShowOtpModal(false);
           router.push(`/otp?email=${encodeURIComponent(userEmail)}&action=change_password`);
         }}
+      />
+
+      <WarningModal
+        visible={showLogoutModal}
+        title="Sign Out"
+        message="Are you sure you want to sign out from your account?"
+        icon="info"
+        confirmText="Log Out"
+        onConfirm={() => {
+          setShowLogoutModal(false);
+          signOut();
+        }}
+        onCancel={() => setShowLogoutModal(false)}
       />
     </ScrollView>
   );

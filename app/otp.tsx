@@ -5,6 +5,7 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { ReactNode, useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
+import { ErrorModal } from '@/src/components/ErrorModal';
 
 const { width, height } = Dimensions.get('window');
 const OTP_LENGTH = 6;
@@ -178,10 +179,6 @@ export default function OTPScreen() {
               </View>
             </View>
 
-            {error ? (
-              <Text className="text-red-500 text-[13px] mt-2 mb-4 font-medium text-center">{error}</Text>
-            ) : null}
-
             <View className="flex-row justify-center mt-2 mb-10">
               <Text className="text-[13px] text-zinc-400 font-medium tracking-wide">Didn't receive the code? </Text>
               <TouchableOpacity activeOpacity={0.7} onPress={handleResend}>
@@ -222,6 +219,13 @@ export default function OTPScreen() {
         icon={modalConfig.icon}
         buttonText="Continue"
         onConfirm={modalConfig.onConfirm}
+      />
+
+      <ErrorModal
+        visible={!!error}
+        title="Verification Failed"
+        message={error}
+        onConfirm={() => setError('')}
       />
     </View>
   );

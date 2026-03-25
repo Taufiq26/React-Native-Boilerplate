@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { ActivityIndicator, Dimensions, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { SuccessModal } from '@/src/components/SuccessModal';
+import { ErrorModal } from '@/src/components/ErrorModal';
 
 const { width, height } = Dimensions.get('window');
 
@@ -110,9 +111,6 @@ export default function ForgotPasswordScreen() {
                   onSubmitEditing={handleReset}
                 />
               </View>
-              {error ? (
-                <Text className="text-red-500 text-[13px] mt-3 ml-1 font-medium">{error}</Text>
-              ) : null}
             </View>
 
             {/* General spacing */}
@@ -158,6 +156,13 @@ export default function ForgotPasswordScreen() {
         }
         buttonText="Continue"
         onConfirm={handleModalConfirm}
+      />
+
+      <ErrorModal
+        visible={!!error}
+        title="Action Required"
+        message={error}
+        onConfirm={() => setError('')}
       />
     </View>
   );

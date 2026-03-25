@@ -5,6 +5,7 @@ import { Eye, EyeOff, Lock, Mail } from 'lucide-react-native';
 import React, { useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
+import { ErrorModal } from '@/src/components/ErrorModal';
 
 const { width, height } = Dimensions.get('window');
 
@@ -130,9 +131,6 @@ export default function LoginScreen() {
                   )}
                 </TouchableOpacity>
               </View>
-              {error ? (
-                <Text className="text-red-500 text-[13px] mt-2 ml-1 font-medium">{error}</Text>
-              ) : null}
             </View>
 
             {/* Forgot Password */}
@@ -168,6 +166,13 @@ export default function LoginScreen() {
           </View>
         </View>
       </KeyboardAvoidingView>
+
+      <ErrorModal
+        visible={!!error}
+        title="Login Failed"
+        message={error}
+        onConfirm={() => setError('')}
+      />
     </View>
   );
 }

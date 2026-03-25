@@ -5,6 +5,7 @@ import React, { useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { SuccessModal } from '@/src/components/SuccessModal';
+import { ErrorModal } from '@/src/components/ErrorModal';
 
 const { width, height } = Dimensions.get('window');
 
@@ -174,9 +175,6 @@ export default function ResetPasswordScreen() {
                   )}
                 </TouchableOpacity>
               </View>
-              {error ? (
-                <Text className="text-red-500 text-[13px] mt-2 ml-1 font-medium">{error}</Text>
-              ) : null}
             </View>
 
             {/* Spacer */}
@@ -223,6 +221,13 @@ export default function ResetPasswordScreen() {
         message={action === 'change_password' ? "Your password has been changed successfully." : "Your password has been reset successfully. You can now use your new credentials to sign in."}
         buttonText={action === 'change_password' ? "Back to Settings" : "Back to Login"}
         onConfirm={handleModalConfirm}
+      />
+
+      <ErrorModal
+        visible={!!error}
+        title="Invalid Input"
+        message={error}
+        onConfirm={() => setError('')}
       />
     </View>
   );
