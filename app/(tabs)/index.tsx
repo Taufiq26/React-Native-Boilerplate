@@ -8,8 +8,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { PropertyCard } from '@/src/features/properties/components/PropertyCard';
 import { DUMMY_PROPERTIES } from '@/src/features/properties/data/dummyProperties';
 import { Property } from '@/src/features/properties/types';
+import { useAuth } from '@/src/context/AuthContext';
 
 export default function TabOneScreen() {
+  const { user } = useAuth();
   const PILLS = ['All', 'Occupied', 'Vacant', 'Renting'];
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
@@ -35,7 +37,7 @@ export default function TabOneScreen() {
     <View className="mb-6 pt-4">
       <View className="flex-row items-center justify-between">
         <View>
-          <Text className="text-sm font-semibold text-gray-500 dark:text-gray-400">Welcome back, Jon!</Text>
+          <Text className="text-sm font-semibold text-gray-500 dark:text-gray-400">Welcome back, {user?.name || 'Jon'}!</Text>
           <Text className="mt-1 text-3xl font-bold text-gray-900 dark:text-white">My Properties</Text>
         </View>
         <View className="flex-row items-center gap-4">

@@ -1,11 +1,13 @@
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import { Bell, ChevronRight, Key, MapPin, MessageSquare, Smartphone, Users } from 'lucide-react-native';
+import { Bell, ChevronRight, Key, MapPin, MessageSquare, Smartphone, Users, LogOut } from 'lucide-react-native';
+import { useAuth } from '@/src/context/AuthContext';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabTwoScreen() {
   const insets = useSafeAreaInsets();
+  const { signOut, user } = useAuth();
 
   const MenuItem = ({ icon: Icon, title, isLast = false, onPress }: any) => (
     <Pressable onPress={onPress} className={`flex-row items-center justify-between py-4 ${!isLast ? 'border-b border-gray-100 dark:border-white/10' : ''}`}>
@@ -40,7 +42,7 @@ export default function TabTwoScreen() {
               contentFit="cover"
             />
           </View>
-          <Text className="mt-4 text-[26px] font-bold tracking-tight text-white">John Snow</Text>
+          <Text className="mt-4 text-[26px] font-bold tracking-tight text-white">{user?.name || 'John Snow'}</Text>
           <Text className="mt-2 w-4/5 text-center text-sm font-medium leading-5 text-white/90">
             Work hard in silence. Let your success be the noise.
           </Text>
@@ -61,6 +63,11 @@ export default function TabTwoScreen() {
           <MenuItem icon={Smartphone} title="Devices" />
           <MenuItem icon={Key} title="Passwords" />
           <MenuItem icon={MessageSquare} title="Language" isLast={true} />
+        </View>
+
+        {/* Logout Card */}
+        <View className="mt-6 rounded-[28px] bg-red-50 px-5 py-2 shadow-sm dark:bg-red-900/20">
+          <MenuItem icon={LogOut} title="Log Out" isLast={true} onPress={signOut} />
         </View>
       </View>
     </ScrollView>
