@@ -1,10 +1,10 @@
+import { IconType, SuccessModal } from '@/src/components/SuccessModal';
 import { useAuth } from '@/src/context/AuthContext';
 import { Image } from 'expo-image';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useRef, useState, ReactNode } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-import { SuccessModal, IconType } from '@/src/components/SuccessModal';
 
 const { width, height } = Dimensions.get('window');
 const OTP_LENGTH = 6;
@@ -13,7 +13,7 @@ export default function OTPScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const { signIn } = useAuth();
-  
+
   const email = (params.email as string) || 'your email';
   const action = (params.action as string) || 'verify';
 
@@ -31,19 +31,19 @@ export default function OTPScreen() {
     title: '',
     message: <></>,
     icon: 'check',
-    onConfirm: () => {},
+    onConfirm: () => { },
   });
 
   const inputRef = useRef<TextInput>(null);
 
   const handleVerify = () => {
     setError('');
-    
+
     if (code.length < OTP_LENGTH) {
       setError('Please enter the complete OTP code.');
       return;
     }
-    
+
     // Simulate successful API verification call
     setIsLoading(true);
     setTimeout(() => {
@@ -55,12 +55,14 @@ export default function OTPScreen() {
         message: (
           <>
             Your account has been successfully verified.
-            You can now proceed to log in to the dashboard.
+            You can now proceed.
           </>
         ),
         onConfirm: () => {
           setModalConfig(prev => ({ ...prev, visible: false }));
-          if (action === 'register') {
+          if (action === 'forgot_password') {
+            router.replace(`/reset-password?email=${encodeURIComponent(email)}`);
+          } else if (action === 'register') {
             router.replace('/login');
           } else {
             router.replace('/login');
@@ -91,23 +93,23 @@ export default function OTPScreen() {
   return (
     <View className="flex-1 bg-white">
       <Stack.Screen options={{ headerShown: false }} />
-      
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'position' : undefined}
         style={{ flex: 1 }}
         contentContainerStyle={{ flex: 1 }}
         keyboardVerticalOffset={0}
       >
-        <ScrollView 
+        <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
-          bounces={false} 
+          bounces={false}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
           {/* Top Curvy Background Section with Image */}
           <View style={{ height: height * 0.4 }} className="w-full relative overflow-hidden bg-[#0a4c81]">
-            <Image 
-              source={require('@/assets/images/entrance.jpg')} 
+            <Image
+              source={require('@/assets/images/entrance.jpg')}
               style={{ width: '100%', height: '100%', position: 'absolute' }}
               contentFit="cover"
             />
@@ -115,16 +117,16 @@ export default function OTPScreen() {
             <View className="absolute w-full h-full bg-[#0a4c81]/40" />
 
             {/* S-Curve Illusion using react-native-svg */}
-            <Svg 
-              height="150" 
-              width="100%" 
-              viewBox="0 0 100 100" 
-              preserveAspectRatio="none" 
+            <Svg
+              height="150"
+              width="100%"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
               style={{ position: 'absolute', bottom: -2 }}
             >
-              <Path 
-                fill="#ffffff" 
-                d="M0,100 L0,20 C30,-20 60,110 100,40 L100,100 Z" 
+              <Path
+                fill="#ffffff"
+                d="M0,100 L0,20 C30,-20 60,110 100,40 L100,100 Z"
               />
             </Svg>
           </View>
@@ -156,19 +158,18 @@ export default function OTPScreen() {
                 autoFocus
                 caretHidden
               />
-              
+
               {/* Visual Boxes container */}
               <View className="flex-row justify-between w-full px-2 z-10" pointerEvents="none">
                 {Array.from({ length: OTP_LENGTH }).map((_, index) => {
                   const isActive = code.length === index;
                   const char = code[index] || '';
-                  
+
                   return (
-                    <View 
-                      key={index} 
-                      className={`w-[48px] h-[58px] rounded-[14px] border-2 flex items-center justify-center bg-zinc-50 ${
-                        isActive ? 'border-[#0a4c81] bg-white' : 'border-zinc-200'
-                      }`}
+                    <View
+                      key={index}
+                      className={`w-[48px] h-[58px] rounded-[14px] border-2 flex items-center justify-center bg-zinc-50 ${isActive ? 'border-[#0a4c81] bg-white' : 'border-zinc-200'
+                        }`}
                     >
                       <Text className="text-[24px] font-bold text-zinc-800 shadow-sm">{char}</Text>
                     </View>
@@ -193,9 +194,8 @@ export default function OTPScreen() {
               onPress={handleVerify}
               disabled={isLoading || code.length < OTP_LENGTH}
               activeOpacity={0.8}
-              className={`w-full py-4 flex-row items-center justify-center rounded-[14px] shadow-sm mb-6 ${
-                (isLoading || code.length < OTP_LENGTH) ? 'bg-[#0a4c81]/60' : 'bg-[#0a4c81]'
-              }`}
+              className={`w-full py-4 flex-row items-center justify-center rounded-[14px] shadow-sm mb-6 ${(isLoading || code.length < OTP_LENGTH) ? 'bg-[#0a4c81]/60' : 'bg-[#0a4c81]'
+                }`}
             >
               {isLoading ? (
                 <ActivityIndicator color="#ffffff" className="h-[24px]" />
