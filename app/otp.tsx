@@ -60,8 +60,8 @@ export default function OTPScreen() {
         ),
         onConfirm: () => {
           setModalConfig(prev => ({ ...prev, visible: false }));
-          if (action === 'forgot_password') {
-            router.replace(`/reset-password?email=${encodeURIComponent(email)}`);
+          if (action === 'forgot_password' || action === 'change_password') {
+            router.replace(`/reset-password?email=${encodeURIComponent(email)}&action=${action}`);
           } else if (action === 'register') {
             router.replace('/login');
           } else {

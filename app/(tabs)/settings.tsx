@@ -4,10 +4,14 @@ import { Bell, ChevronRight, Key, MapPin, MessageSquare, Smartphone, Users, LogO
 import { useAuth } from '@/src/context/AuthContext';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useState } from 'react';
+import { SuccessModal } from '@/src/components/SuccessModal';
 
 export default function TabTwoScreen() {
   const insets = useSafeAreaInsets();
   const { signOut, user } = useAuth();
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const userEmail = `${user?.name?.toLowerCase().replace(/\s+/g, '') || 'john'}@demo.com`;
 
   const MenuItem = ({ icon: Icon, title, isLast = false, onPress }: any) => (
     <Pressable onPress={onPress} className={`flex-row items-center justify-between py-4 ${!isLast ? 'border-b border-gray-100 dark:border-white/10' : ''}`}>
@@ -61,7 +65,7 @@ export default function TabTwoScreen() {
         <View className="rounded-[28px] bg-white px-5 py-2 shadow-sm dark:bg-zinc-900">
           <MenuItem icon={Bell} title="Notifications" onPress={() => router.push('/notifications')} />
           <MenuItem icon={Smartphone} title="Devices" />
-          <MenuItem icon={Key} title="Passwords" />
+          <MenuItem icon={Key} title="Change Password" onPress={() => setShowOtpModal(true)} />
           <MenuItem icon={MessageSquare} title="Language" isLast={true} />
         </View>
 
@@ -70,6 +74,24 @@ export default function TabTwoScreen() {
           <MenuItem icon={LogOut} title="Log Out" isLast={true} onPress={signOut} />
         </View>
       </View>
+
+      <SuccessModal
+        visible={showOtpModal}
+        icon="mail"
+        title="Check Your Email"
+        message={
+          <>
+            We've sent a 6-digit OTP code to{"\n"}
+            <Text className="font-bold text-zinc-800">{userEmail}</Text>{"\n"}
+            Please enter it to confirm your identity.
+          </>
+        }
+        buttonText="Continue"
+        onConfirm={() => {
+          setShowOtpModal(false);
+          router.push(`/otp?email=${encodeURIComponent(userEmail)}&action=change_password`);
+        }}
+      />
     </ScrollView>
   );
 }

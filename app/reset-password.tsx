@@ -12,6 +12,7 @@ export default function ResetPasswordScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const email = (params.email as string) || '';
+  const action = (params.action as string) || '';
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -52,7 +53,11 @@ export default function ResetPasswordScreen() {
 
   const handleModalConfirm = () => {
     setShowSuccessModal(false);
-    router.replace('/login');
+    if (action === 'change_password') {
+      router.replace('/(tabs)/settings');
+    } else {
+      router.replace('/login');
+    }
   };
 
   return (
@@ -194,8 +199,16 @@ export default function ResetPasswordScreen() {
 
             {/* Cancel Edit Link */}
             <View className="flex-row items-center justify-center mt-auto mb-2">
-              <TouchableOpacity activeOpacity={0.7} onPress={() => router.replace('/login')}>
-                <Text className="text-[14px] text-zinc-500 font-bold tracking-wide">Cancel & return to login</Text>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => {
+                if (action === 'change_password') {
+                  router.replace('/(tabs)/settings');
+                } else {
+                  router.replace('/login');
+                }
+              }}>
+                <Text className="text-[14px] text-zinc-500 font-bold tracking-wide">
+                  {action === 'change_password' ? 'Cancel & return to settings' : 'Cancel & return to login'}
+                </Text>
               </TouchableOpacity>
             </View>
 
@@ -206,9 +219,9 @@ export default function ResetPasswordScreen() {
       <SuccessModal
         visible={showSuccessModal}
         icon="check"
-        title="Password Reset"
-        message="Your password has been reset successfully. You can now use your new credentials to sign in."
-        buttonText="Back to Login"
+        title="Password Saved"
+        message={action === 'change_password' ? "Your password has been changed successfully." : "Your password has been reset successfully. You can now use your new credentials to sign in."}
+        buttonText={action === 'change_password' ? "Back to Settings" : "Back to Login"}
         onConfirm={handleModalConfirm}
       />
     </View>

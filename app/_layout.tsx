@@ -34,11 +34,13 @@ function InitialLayout() {
 
     const inAuthGroup = segments[0] === 'login' || segments[0] === 'register' || segments[0] === 'otp' || segments[0] === 'forgot-password' || segments[0] === 'reset-password';
 
+    const StrictlyUnauthenticatedGroup = segments[0] === 'login' || segments[0] === 'register' || segments[0] === 'forgot-password';
+
     if (!user && !inAuthGroup) {
       // Redirect to the login page
       router.replace('/login');
-    } else if (user && inAuthGroup) {
-      // Redirect away from the login page
+    } else if (user && StrictlyUnauthenticatedGroup) {
+      // Redirect away from unauthenticated-only pages
       router.replace('/(tabs)');
     }
   }, [user, isLoading, segments]);
