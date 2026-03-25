@@ -31,8 +31,17 @@ export const PropertyCard = ({ property, onPress }: PropertyCardProps) => {
           contentFit="cover"
           transition={200}
         />
-        <View className="absolute left-4 top-4 rounded-full bg-white px-4 py-2 opacity-90">
-          <Text className="text-xs font-bold text-gray-900">{property.type}</Text>
+        <View className="absolute left-4 top-4 flex-row items-center">
+          <View className="rounded-full bg-white px-4 py-2 opacity-90">
+            <Text className="text-xs font-bold text-gray-900">{property.type}</Text>
+          </View>
+          <View className={`ml-2 rounded-full px-4 py-2 opacity-90 ${
+            property.status === 'Occupied' ? 'bg-blue-500' :
+            property.status === 'Vacant' ? 'bg-green-500' :
+            'bg-amber-500'
+          }`}>
+            <Text className="text-xs font-bold text-white">{property.status}</Text>
+          </View>
         </View>
         <View className="absolute right-4 top-4 rounded-full bg-white/40 p-2 backdrop-blur-md">
           <Heart size={20} color="#fff" strokeWidth={2.5} />
