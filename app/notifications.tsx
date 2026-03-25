@@ -55,9 +55,6 @@ export default function NotificationsScreen() {
         options={{
           headerTitle: 'Notifications',
           headerBackTitle: 'Back',
-          headerLargeTitle: true,
-          headerShadowVisible: false,
-          headerStyle: { backgroundColor: 'transparent' },
         }}
       />
       
