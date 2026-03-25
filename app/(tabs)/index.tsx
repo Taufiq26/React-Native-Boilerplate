@@ -51,7 +51,7 @@ export default function TabOneScreen() {
         </View>
       </View>
 
-      <View className="mt-8 flex-row items-center justify-between rounded-3xl bg-gray-900 p-6 shadow-md dark:bg-zinc-800">
+      <View className="mt-8 flex-row items-center justify-between rounded-3xl bg-[#0a4c81] p-6 shadow-md dark:bg-[#0a4c81]/90">
         <View>
           <Text className="text-sm font-semibold text-gray-400">Total Asset Value</Text>
           <Text className="mt-2 text-2xl font-bold text-white">{formatter.format(totalValue)}</Text>
@@ -80,12 +80,12 @@ export default function TabOneScreen() {
             key={pill}
             onPress={() => setActiveFilter(pill)}
             className={`mr-3 rounded-full border px-6 py-2.5 ${activeFilter === pill
-                ? 'border-gray-900 bg-gray-900 dark:border-white dark:bg-white'
+                ? 'border-[#0a4c81] bg-[#0a4c81] dark:border-[#0a4c81] dark:bg-[#0a4c81]/90'
                 : 'border-gray-200 bg-white dark:border-zinc-700 dark:bg-zinc-800'
               }`}
           >
             <Text
-              className={`text-sm font-semibold ${activeFilter === pill ? 'text-white dark:text-gray-900' : 'text-gray-700 dark:text-gray-300'
+              className={`text-sm font-semibold ${activeFilter === pill ? 'text-white dark:text-white' : 'text-gray-700 dark:text-gray-300'
                 }`}
             >
               {pill}

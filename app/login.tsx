@@ -1,6 +1,6 @@
 import { useAuth } from '@/src/context/AuthContext';
 import { Image } from 'expo-image';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react-native';
 import React, { useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -10,6 +10,7 @@ const { width, height } = Dimensions.get('window');
 
 export default function LoginScreen() {
   const { signIn, isLoading } = useAuth();
+  const router = useRouter();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -159,7 +160,7 @@ export default function LoginScreen() {
             {/* Sign Up Link */}
             <View className="flex-row items-center justify-center mt-auto mb-8">
               <Text className="text-[13px] text-zinc-400 font-medium tracking-wide">Don't have an Account ? </Text>
-              <TouchableOpacity activeOpacity={0.7}>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/register')}>
                 <Text className="text-[13px] text-[#0a4c81] font-bold tracking-wide">Sign up</Text>
               </TouchableOpacity>
             </View>
