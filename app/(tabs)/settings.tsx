@@ -1,13 +1,14 @@
 import { Image } from 'expo-image';
-import { Bell, ChevronRight, Heart, Key, MapPin, MessageSquare, ShoppingBag, Smartphone, Users } from 'lucide-react-native';
+import { router } from 'expo-router';
+import { Bell, ChevronRight, Key, MapPin, MessageSquare, Smartphone, Users } from 'lucide-react-native';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabTwoScreen() {
   const insets = useSafeAreaInsets();
 
-  const MenuItem = ({ icon: Icon, title, isLast = false }: any) => (
-    <Pressable className={`flex-row items-center justify-between py-4 ${!isLast ? 'border-b border-gray-100 dark:border-white/10' : ''}`}>
+  const MenuItem = ({ icon: Icon, title, isLast = false, onPress }: any) => (
+    <Pressable onPress={onPress} className={`flex-row items-center justify-between py-4 ${!isLast ? 'border-b border-gray-100 dark:border-white/10' : ''}`}>
       <View className="flex-row items-center">
         <View className="w-8 items-center justify-center">
           <Icon size={24} color="#9CA3AF" strokeWidth={2.5} />
@@ -29,20 +30,6 @@ export default function TabTwoScreen() {
         />
         {/* Dark overlay to make text readable */}
         <View className="absolute h-full w-full bg-black/40" />
-
-        {/* Top Header Icons */}
-        <View
-          className="absolute w-full flex-row justify-end px-6"
-          style={{ paddingTop: Math.max(insets.top, 20) + 10 }}
-        >
-          <Pressable className="mr-5 mt-1">
-            <Heart size={26} color="#fff" strokeWidth={2.5} />
-          </Pressable>
-          <Pressable className="relative mt-1">
-            <ShoppingBag size={26} color="#fff" strokeWidth={2.5} />
-            <View className="absolute -right-1.5 -top-1.5 h-3.5 w-3.5 rounded-full border-2 border-[#1E1E1E] bg-red-500" />
-          </Pressable>
-        </View>
 
         {/* Profile Info */}
         <View className="mt-[110px] items-center">
@@ -70,7 +57,7 @@ export default function TabTwoScreen() {
 
         {/* Second Card */}
         <View className="rounded-[28px] bg-white px-5 py-2 shadow-sm dark:bg-zinc-900">
-          <MenuItem icon={Bell} title="Notifications" />
+          <MenuItem icon={Bell} title="Notifications" onPress={() => router.push('/notifications')} />
           <MenuItem icon={Smartphone} title="Devices" />
           <MenuItem icon={Key} title="Passwords" />
           <MenuItem icon={MessageSquare} title="Language" isLast={true} />

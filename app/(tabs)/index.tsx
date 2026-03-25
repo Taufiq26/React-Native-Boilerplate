@@ -1,4 +1,5 @@
 import { FlashList } from '@shopify/flash-list';
+import { router } from 'expo-router';
 import { Bell, Search } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
@@ -38,7 +39,10 @@ export default function TabOneScreen() {
           <Text className="mt-1 text-3xl font-bold text-gray-900 dark:text-white">My Properties</Text>
         </View>
         <View className="flex-row items-center gap-4">
-          <Pressable className="relative rounded-full bg-white p-3 shadow-sm dark:bg-zinc-800">
+          <Pressable 
+            onPress={() => router.push('/notifications')}
+            className="relative rounded-full bg-white p-3 shadow-sm dark:bg-zinc-800"
+          >
             <Bell size={20} className="text-gray-800 dark:text-gray-200" strokeWidth={2.5} />
             <View className="absolute right-3 top-2.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-red-500 dark:border-zinc-800" />
           </Pressable>
