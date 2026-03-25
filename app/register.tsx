@@ -1,9 +1,10 @@
 import { Image } from 'expo-image';
 import { Stack, useRouter } from 'expo-router';
-import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react-native';
+import { Eye, EyeOff, Lock, Mail, User, MailCheck } from 'lucide-react-native';
 import React, { useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
+import { SuccessModal } from '@/src/components/SuccessModal';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,6 +20,7 @@ export default function RegisterScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
@@ -41,9 +43,13 @@ export default function RegisterScreen() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      // Automatically redirect to login page specifying success
-      router.replace('/login');
+      setShowSuccessModal(true);
     }, 1500);
+  };
+
+  const handleModalConfirm = () => {
+    setShowSuccessModal(false);
+    router.push(`/otp?email=${encodeURIComponent(email)}&action=register`);
   };
 
   return (
@@ -233,6 +239,21 @@ export default function RegisterScreen() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <SuccessModal
+        visible={showSuccessModal}
+        icon="mail"
+        title="Check Your Email"
+        message={
+          <>
+            We've sent a 6-digit OTP code to{"\n"}
+            <Text className="font-bold text-zinc-800">{email || 'your email'}</Text>{"\n"}
+            Please enter it to verify your account.
+          </>
+        }
+        buttonText="Continue"
+        onConfirm={handleModalConfirm}
+      />
     </View>
   );
 }

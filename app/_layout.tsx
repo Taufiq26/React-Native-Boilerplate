@@ -32,7 +32,7 @@ function InitialLayout() {
     // If auth is loading, don't do anything
     if (isLoading) return;
 
-    const inAuthGroup = segments[0] === 'login' || segments[0] === 'register';
+    const inAuthGroup = segments[0] === 'login' || segments[0] === 'register' || segments[0] === 'otp';
 
     if (!user && !inAuthGroup) {
       // Redirect to the login page
@@ -49,6 +49,7 @@ function InitialLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false, animation: 'fade' }} />
         <Stack.Screen name="register" options={{ headerShown: false, animation: 'fade' }} />
+        <Stack.Screen name="otp" options={{ headerShown: false, animation: 'fade' }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
